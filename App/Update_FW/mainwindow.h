@@ -15,6 +15,11 @@
 #include <QTimer>
 #include <QPalette>
 
+#include <QTcpSocket>
+#include "crc16.h"
+#include "tcp.h"
+#include "udp.h"
+
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
@@ -39,7 +44,7 @@ public:
         UDP
     };
     QByteArray fileData;
-    uint8_t CRC[2];
+    uint16_t CRC;
 
 private slots:
 
@@ -53,17 +58,20 @@ private slots:
 
     void BttFlash_clicked();
 
+
 private:
     Ui::MainWindow *ui;
     QPlainTextEdit *pTdirection;
     QSerialPort  *comPort;
+    tcp *Tcpserver;
+    udp *Udpserver;
 
     void loadPort();
     void setupPortUpdater();
-    void setColorButtonUart(uint8_t Color);
+    void setColorButton(uint8_t button, uint8_t Color);
     void uartSendData();
     void tcpSendDada();
     void udpSendData();
-    uint16_t calculateCRC16(uint8_t *data);
+
 };
 #endif // MAINWINDOW_H
